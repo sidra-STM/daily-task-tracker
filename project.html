@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daily Task Tracker</title>
+  <style>
+    /* styling with CSS part */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: aliceblue;
+      margin: 0;
+      padding: 0;
+    }
+
+    
+    header {
+      background-color: #4a90e2;
+      color: white;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+    }
+
+    #datetime {
+      font-size: 1em;
+      margin-top: 5px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .add-task {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .add-task input,
+    .add-task select {
+      padding: 10px;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      flex: 1;
+    }
+
+    .add-task button {
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .add-task button:hover {
+      background-color: #219150;
+      transform: rotatex(360deg);
+      transition: 2s;
+    }
+    .filters {
+      margin: 20px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .filters button {
+      padding: 8px 14px;
+      border: 1px solid #4a90e2;
+      background: none;
+      color: #4a90e2;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.9em;
+    }
+
+    .filters button:hover {
+      background: #4a90e2;
+      color: white;
+      transform: rotatey(360deg);
+      transition: 2s;
+    }
+
+    .tasks {
+      display: grid;
+      gap: 15px;
+    }
+
+    .task {
+      padding: 15px;
+      border-left: 6px solid #4a90e2;
+      background: #f9f9f9;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .task.low { border-color: #2ecc71; }
+    .task.medium { border-color: #f1c40f; }
+    .task.high { border-color: #e74c3c; }
+
+    .task span {
+      font-weight: bold;
+    }
+    .task.completed {
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+    .clear-btn {
+      margin-top: 25px;
+      text-align: center;
+    }
+
+    .clear-btn button {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .clear-btn button:hover {
+      background-color: #c0392b;
+      transform: scale(1.3);
+      transition: 2s;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: larger;
+      font-weight: bold;
+      color: #777;
+    }
+
+    @media (max-width: 768px) {
+  body {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  input[type="text"],
+  select,
+  button {
+    width: 100%;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .task {
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 14px;
+  }
+
+  .task button {
+    margin-top: 5px;
+    width: 100%;
+  }
+
+  .filter{
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  footer {
+    text-align: center;
+    font-size: 12px;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- The building block sectlon...HTML -->
+  <header>
+    <h1>Daily Task Tracker</h1>
+    <div id="datetime">Loading...</div>
+  </header>
+
+  <div class="container">
+
+    
+    <div class="add-task">
+      <input type="text" id="taskInput" placeholder="Enter a new task" />
+      <select id="priority">
+        <option value="low">Low Priority</option>
+        <option value="medium">Medium Priority</option>
+        <option value="high">High Priority</option>
+      </select>
+      <button onclick="addTask()">Add Task</button>
+    </div>
+
+    
+    <div class="filters">
+      <button onclick="filterTasks('all')">All Tasks</button>
+      <button onclick="filterTasks('pending')">Pending</button>
+      <button onclick="filterTasks('completed')">Completed</button>
+      <button onclick="filterTasks('low')">Low Priority</button>
+      <button onclick="filterTasks('medium')">Medium Priority</button>
+      <button onclick="filterTasks('high')">High Priority</button>
+    </div>
+
+
+    <div class="tasks" id="taskList"></div>
+
+
+    <div class="clear-btn">
+      <button onclick="clearCompleted()">Clear Completed Tasks</button>
+    </div>
+  </div>s
+
+  <footer>
+    Designed by S.T.M
+  </footer>
+
+  <!-- JavaScript Section -->
+    
+   </body>
+
+ <script>
+  // getting the important html elemnts
+  const taskInput = document.getElementById("taskInput");
+  const prioritySelect = document.getElementById("priority");
+  const taskList = document.getElementById("taskList");
+
+  // A simple array to store all of my task
+  let tasks = [];
+
+  function showTasks() {
+    taskList.innerHTML = ""; 
+
+    tasks.forEach((task, index) => {
+      const taskBox = document.createElement("div");
+      taskBox.className = "task " + task.priority;
+
+      if (task.completed) {
+        taskBox.classList.add("completed");
+      }
+
+      taskBox.innerHTML = `
+        <span>${task.text}</span>
+        <button onclick="markAsDone(${index})">
+          ${task.completed ? 'Undo' : 'Done'}
+        </button>
+      `;
+
+      taskList.appendChild(taskBox);
+    });
+  }
+
+  //  now to Add new task
+  function addTask() {
+    const text = taskInput.value.trim();
+    const priority = prioritySelect.value;
+
+    if (text === "") return;
+
+    const newTask = {
+      text: text,
+      priority: priority,
+      completed: false
+    };
+
+    tasks.push(newTask);  
+    showTasks();        
+    taskInput.value = ""; 
+  }
+
+
+  function markAsDone(index) {
+    tasks[index].completed = !tasks[index].completed;
+    showTasks();
+  }
+
+  function filterTasks(type) {
+    let filtered = [];
+
+    if (type === "all") {
+      filtered = tasks;
+    } else if (type === "completed") {
+      filtered = tasks.filter(t => t.completed);
+    } else if (type === "pending") {
+      filtered = tasks.filter(t => !t.completed);
+    } else {
+      filtered = tasks.filter(t => t.priority === type);
+    }
+
+    taskList.innerHTML = "";
+    filtered.forEach((task, index) => {
+      const taskBox = document.createElement("div");
+      taskBox.className = "task " + task.priority;
+      if (task.completed) taskBox.classList.add("completed");
+
+      taskBox.innerHTML = `
+        <span>${task.text}</span>
+        <button onclick="markAsDone(${index})">
+          ${task.completed ? 'Undo' : 'Done'}
+        </button>
+      `;
+      taskList.appendChild(taskBox);
+    });
+  }
+
+  // finally to clear all completed tasks
+  function clearCompleted() {
+    tasks = tasks.filter(t => !t.completed);
+    showTasks();
+  }
+
+  setInterval(() => {
+    document.getElementById("datetime").textContent = new Date().toLocaleString();
+  }, 1000);
+</script>
+    
+</body>
+</html>
